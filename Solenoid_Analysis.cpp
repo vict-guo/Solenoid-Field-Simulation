@@ -37,10 +37,35 @@ vect normalize(vect a){
 //Variable Declarations
 #define PI 3.14159265358
 vector<pair<vect,vect> > magField; //array relating a position vector to a magnetic field strength
-double h1 = 0.055, w1 = 0.055, l1 = 0.066;
-double I = 0.06;
-const double u = 4*PI*0.0000001;
-double h2 = 0.055, w2 = 0.055, l2 = 0.066;
+double h1 = 0.055, w1 = 0.055, l1 = 0.066; //dummy values
+double I = 0.06, I2 = 0.06;
+const double u = 4*PI*0.0000001; //permittivity constant
+double h2 = 0.055, w2 = 0.055, l2 = 0.066; //dummy values
+
+void input(){
+    printf("This program computes the field between two rectangular cylindrical solenoids.\n");
+    printf("Enter the dimensions for the first solenoid: \n");
+    printf("Height: ");
+    scanf("%lf", &h1);
+    printf("Width: ");
+    scanf("%lf", &w1);
+    printf("Length: ");
+    scanf("%lf", &l1);
+    printf("Current: ");
+    scanf("%lf", &I);
+
+    printf("\n");
+
+    printf("Enter the dimensions for the second solenoid: \n");
+    printf("Height: ");
+    scanf("%lf", &h2);
+    printf("Width: ");
+    scanf("%lf", &w2);
+    printf("Length: ");
+    scanf("%lf", &l2);
+    printf("Current: ");
+    scanf("%lf", &I2);
+}
 
 //Method to initialize experiment setup
 void initialize(){
@@ -114,7 +139,7 @@ vect calculateField(vect pos){
             xi = -w2/2.0 + 1.0/100*w2 + i/50.0*w2;
             yi = 0.13 + l1+ l2 * (j-1.0)/89.0;
             r = addVector(pos, vect(-xi,-yi,-zi));
-            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I/(4.0 * PI * magnitude(r) * magnitude(r))));
+            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I2/(4.0 * PI * magnitude(r) * magnitude(r))));
         }
     }
     //bottom
@@ -125,7 +150,7 @@ vect calculateField(vect pos){
             xi = -w2/2.0 + 1.0/100*w2 + i/50.0*w2;
             yi = 0.13 + l1+ l2 * (j-1.0)/89.0;
             r = addVector(pos, vect(-xi,-yi,-zi));
-            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I/(4.0 * PI * magnitude(r) * magnitude(r))));
+            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I2/(4.0 * PI * magnitude(r) * magnitude(r))));
         }
     }
     //right
@@ -136,7 +161,7 @@ vect calculateField(vect pos){
             zi = 0.05+(2*i+1.0)*h1/100.0;
             yi = 0.13 + l1+ l2 * (j-1.0)/89.0;
             r = addVector(pos, vect(-xi,-yi,-zi));
-            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I/(4.0 * PI * magnitude(r) * magnitude(r))));
+            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I2/(4.0 * PI * magnitude(r) * magnitude(r))));
         }
     }
     //left
@@ -147,7 +172,7 @@ vect calculateField(vect pos){
             zi = 0.05+(2*i+1.0)*h1/100.0;
             yi = 0.13 + l1+ l2 * (j-1.0)/89.0;
             r = addVector(pos, vect(-xi,-yi,-zi));
-            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I/(4.0 * PI * magnitude(r) * magnitude(r))));
+            B = addVector(B, scalarProduct(crossProduct(L,normalize(r)),u*I2/(4.0 * PI * magnitude(r) * magnitude(r))));
         }
     }
 
@@ -166,6 +191,7 @@ vect calculateField(vect pos){
     return B;
 }
 int main(){
+    input();
     initialize();
     magField[1].second = calculateField(vect(0,0.05,0.196));
 
