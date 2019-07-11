@@ -195,11 +195,12 @@ vect calculateField(vect pos){
     return B;
 }
 int main(){
-    //input();
+    input();
     initialize();
     for(int i = 0; i < magField.size(); i++){
         magField[i].second = calculateField(magField[i].first);
     }
+    cout<<"\nThe Data is written to Data.txt";
     freopen ("Data.txt","w",stdout);
     for(auto val : magField){
         printf("%f %f %f %f %f %f\n", val.first.x, val.first.y, val.first.z, val.second.x*1000000.0, val.second.y*1000000.0, val.second.z*1000000.0); //output in microtesla
