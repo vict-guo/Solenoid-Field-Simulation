@@ -1,3 +1,7 @@
+/* Solenoid Analysis
+ * Program simulates B field around two solenoids using biot savart law
+ * Victor Guo
+ */
 #include<bits/stdc++.h>
 
 using namespace std;
@@ -71,8 +75,8 @@ void input(){
 void initialize(){
  for(int i = 0; i < 10; i++){
     for(int j = 0; j < 10; j++){
-        for(int k = 0; k < 3; k++){
-            magField.push_back(make_pair(vect(-0.15 + i*3.0/100.0, 3.0/200 + 3.0*j/100.0, 1.0/20 + k/10.0), vect(0,0,0)));
+        for(int k = 0; k < 10; k++){
+            magField.push_back(make_pair(vect(-0.15 + i*3.0/100.0, 3.0/200 + 3.0*j/100.0, 1.0/20 + 1.0*k/100.0), vect(0,0,0)));
         }
     }
  }
@@ -176,8 +180,8 @@ vect calculateField(vect pos){
         }
     }
 
-    //circle coil
-/*
+    //Code for a secondary circular coil
+    /*
     for(int i = 0; i < 50; i++){
         for(int j = 1; j <= 50; j++){
             yi = 0.1+l1+0.05+l2*(j-1.0)/50;
@@ -191,10 +195,15 @@ vect calculateField(vect pos){
     return B;
 }
 int main(){
-    input();
+    //input();
     initialize();
-    magField[1].second = calculateField(vect(0,0.05,0.196));
-
-    printf("%f %f %f", magField[1].second.x,  magField[1].second.y,  magField[1].second.z);
+    for(int i = 0; i < magField.size(); i++){
+        magField[i].second = calculateField(magField[i].first);
+    }
+    freopen ("Data.txt","w",stdout);
+    for(auto val : magField){
+        printf("%f %f %f %f %f %f\n", val.first.x, val.first.y, val.first.z, val.second.x*1000000.0, val.second.y*1000000.0, val.second.z*1000000.0); //output in microtesla
+    }
+    fclose (stdout);
 	return 0;
 }
